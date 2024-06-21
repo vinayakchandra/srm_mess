@@ -17,7 +17,7 @@ class _CardScreenState extends State<CardScreen> {
   Widget build(BuildContext context) {
     int relativeCrossAxisCount = MediaQuery.of(context).size.width ~/ 180;
     var messMenu = GPMess().menu()[currentDay - 1][widget.time];
-    print("\n day: $currentDay\n time: ${widget.time} \n menu: $messMenu");
+    // print("\n day: $currentDay\n time: ${widget.time} \n menu: $messMenu");
 
     return SafeArea(
       bottom: false,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:srm_mess/messFood.dart';
 import 'package:srm_mess/sideBar.dart';
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
       home: const MyHomePage(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurpleAccent),
+        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.greenAccent),
         // primarySwatch: Colors.deepPurple,
         useMaterial3: true,
       ),
@@ -41,19 +43,26 @@ class _MyHomePageState extends State<MyHomePage> {
     "Saturday",
     "Sunday",
   ];
+  List<String> time = ["BREAKFAST", "LUNCH", "EVENING SNACKS", "DINNER"];
+
+  int _currentIndex=0;
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      // initialIndex: 2,
       // animationDuration: const Duration(milliseconds: 500),
       length: 4,
       child: Scaffold(
         appBar: AppBar(
           actions: [
             IconButton(
-              icon: const Icon(Icons.keyboard_arrow_left),
+              icon: const Icon(
+                Icons.keyboard_arrow_left,
+                color: Colors.greenAccent,
+                size: 30,
+              ),
               onPressed: () {
-                print("left arrow pressed");
                 setState(() {
                   decreaseDay();
                 });
@@ -62,9 +71,12 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(days[currentDay - 1].substring(0, 3),
                 style: const TextStyle(color: Colors.white)),
             IconButton(
-              icon: const Icon(Icons.keyboard_arrow_right),
+              icon: const Icon(
+                Icons.keyboard_arrow_right,
+                color: Colors.greenAccent,
+                size: 30
+              ),
               onPressed: () {
-                print("right arrow pressed");
                 setState(() {
                   increaseDay();
                 });
@@ -73,11 +85,18 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
           centerTitle: true,
           backgroundColor: Colors.deepPurpleAccent,
-          title: const Text("SRM Mess"),
-          bottom: const TabBar(
+          title: const Text("SRM GP Mess",
+              style: TextStyle(
+                color: Colors.yellowAccent,
+                fontWeight: FontWeight.bold,
+              )),
+          bottom: TabBar(
+            onTap: (index){
+              _currentIndex=index;
+            },
             unselectedLabelColor: Colors.white60,
             labelColor: Colors.yellowAccent,
-            tabs: [
+            tabs: const [
               Tab(icon: Icon(Icons.sunny)),
               Tab(icon: Icon(Icons.food_bank)),
               Tab(icon: Icon(Icons.coffee)),
@@ -85,12 +104,12 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
-        body: const TabBarView(
+        body:  TabBarView(
           children: [
-            CardScreen(time: "BREAKFAST"),
-            CardScreen(time: "LUNCH"),
-            CardScreen(time: "EVENING SNACKS"),
-            CardScreen(time: "DINNER"),
+            CardScreen(time: time[_currentIndex]),
+            CardScreen(time: time[_currentIndex]),
+            CardScreen(time: time[_currentIndex]),
+            CardScreen(time: time[_currentIndex]),
           ],
         ),
         drawer: const Sidebar(),
