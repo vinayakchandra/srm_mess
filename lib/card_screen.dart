@@ -24,7 +24,7 @@ class _CardScreenState extends State<CardScreen> {
       child: ListView.builder(
         itemCount: messMenu.length,
         itemBuilder: (context, index) {
-          var foodItem = messMenu["item_${index + 1}"];
+          var foodItem = messMenu[index];
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Card(
