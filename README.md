@@ -1,6 +1,6 @@
 # srm_mess
 
-A new Flutter project.
+see in web: https://vinayakchandra.github.io/srm_mess/
 
 ## Getting Started
 
