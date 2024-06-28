@@ -37,7 +37,7 @@ class _CardScreenState extends State<CardScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: ListTile(
-                    title: Text("$foodItem"),
+                    title: Center(child: Text("$foodItem")),
                     // trailing: SizedBox(
                     //   width: 70,
                     //   child: Row(
