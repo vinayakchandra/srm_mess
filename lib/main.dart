@@ -92,7 +92,9 @@ class _MyHomePageState extends State<MyHomePage> {
               )),
           bottom: TabBar(
             onTap: (index){
+              setState(() {
               _currentIndex=index;
+              });
             },
             unselectedLabelColor: Colors.white60,
             labelColor: Colors.yellowAccent,
