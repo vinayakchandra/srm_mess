@@ -11,62 +11,95 @@ class CardScreen extends StatefulWidget {
 }
 
 class _CardScreenState extends State<CardScreen> {
-  bool isPressed = false;
+  List<String> daysOfWeek = [
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+    'sunday'
+  ];
+  late Future<Map<String, dynamic>>? futureMenu;
+
+  @override
+  void initState() {
+    super.initState();
+    futureMenu = MessService().gpMenu();
+    // print("\nfuture menu=$futureMenu");
+  }
 
   @override
   Widget build(BuildContext context) {
-    int relativeCrossAxisCount = MediaQuery.of(context).size.width ~/ 180;
-    var messMenu = GPMess().menu()[currentDay - 1][widget.time];
-    // print("\n day: $currentDay\n time: ${widget.time} \n menu: $messMenu");
-
     return SafeArea(
       bottom: false,
-      child: ListView.builder(
-        itemCount: messMenu.length,
-        itemBuilder: (context, index) {
-          var foodItem = messMenu[index];
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Card(
-              elevation: 5,
-              color: Colors.lightGreenAccent,
-              child: InkWell(
-                onTap: () {
-                  print("$foodItem card tapped");
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: ListTile(
-                    title: Center(child: Text("$foodItem")),
-                    // trailing: SizedBox(
-                    //   width: 70,
-                    //   child: Row(
-                    //     children: [
-                    //       Expanded(
-                    //         child: IconButton(
-                    //           icon: const Icon(Icons.thumb_up_outlined),
-                    //           onPressed: () {
-                    //             setState(() {
-                    //             });
-                    //           },
-                    //         ),
-                    //       ),
-                    //       Expanded(
-                    //         child: IconButton(
-                    //           icon: const Icon(Icons.thumb_down_outlined),
-                    //           onPressed: () {},
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                  ),
-                ),
+      child: Center(
+        child: FutureBuilder<Map<String, dynamic>>(
+          future: futureMenu,
+          builder: (context, snapshot) {
+            Map<String, dynamic> messMenu =
+                snapshot.data ?? {"data": "no data"};
+            // print("\n day: $currentDay\n time: ${widget.time} \n menu: ${messMenu[daysOfWeek[currentDay - 1]]}");
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              return const Column(
+                children: [
+                  CircularProgressIndicator(),
+                  Text("ERROR: No Net"),
+                ],
+              );
+            } else if (snapshot.hasData) {
+              return ListViewBuilder(
+                  messMenu: messMenu, daysOfWeek: daysOfWeek, widget: widget);
+            } else {
+              return const Text("No Data");
+            }
+          },
+        ),
+      ),
+    );
+  }
+}
+
+// builder for making CARDS
+class ListViewBuilder extends StatelessWidget {
+  const ListViewBuilder({
+    super.key,
+    required this.messMenu,
+    required this.daysOfWeek,
+    required this.widget,
+  });
+
+  final Map<String, dynamic> messMenu;
+  final List<String> daysOfWeek;
+  final CardScreen widget;
+
+  @override
+  Widget build(BuildContext context) {
+    var items = messMenu[daysOfWeek[currentDay - 1]][widget.time];
+    // print("\nitem count = ${items.length}");
+    return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        var foodItem = items[index];
+        // print("\n $foodItem");
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Card(
+            elevation: 5,
+            color: Colors.lightGreenAccent,
+            child: InkWell(
+              onTap: () {
+                print("$foodItem card tapped");
+              },
+              child: ListTile(
+                title: Center(child: Text("$foodItem")),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
