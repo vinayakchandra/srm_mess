@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:srm_mess/messFood.dart';
 import 'package:srm_mess/sideBar.dart';
@@ -45,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
   List<String> time = ["BREAKFAST", "LUNCH", "EVENING SNACKS", "DINNER"];
 
-  int _currentIndex=0;
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -71,11 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(days[currentDay - 1].substring(0, 3),
                 style: const TextStyle(color: Colors.white)),
             IconButton(
-              icon: const Icon(
-                Icons.keyboard_arrow_right,
-                color: Colors.greenAccent,
-                size: 30
-              ),
+              icon: const Icon(Icons.keyboard_arrow_right,
+                  color: Colors.greenAccent, size: 30),
               onPressed: () {
                 setState(() {
                   increaseDay();
@@ -91,9 +86,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 fontWeight: FontWeight.bold,
               )),
           bottom: TabBar(
-            onTap: (index){
+            onTap: (index) {
               setState(() {
-              _currentIndex=index;
+                _currentIndex = index;
+                // print("current Index = $_currentIndex");
               });
             },
             unselectedLabelColor: Colors.white60,
@@ -106,7 +102,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
-        body:  TabBarView(
+        body: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             CardScreen(time: time[_currentIndex]),
             CardScreen(time: time[_currentIndex]),
