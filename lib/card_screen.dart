@@ -31,32 +31,29 @@ class _CardScreenState extends State<CardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      bottom: false,
-      child: Center(
-        child: FutureBuilder<Map<String, dynamic>>(
-          future: futureMenu,
-          builder: (context, snapshot) {
-            Map<String, dynamic> messMenu =
-                snapshot.data ?? {"data": "no data"};
-            // print("\n day: $currentDay\n time: ${widget.time} \n menu: ${messMenu[daysOfWeek[currentDay - 1]]}");
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            } else if (snapshot.hasError) {
-              return const Column(
-                children: [
-                  CircularProgressIndicator(),
-                  Text("ERROR: No Net"),
-                ],
-              );
-            } else if (snapshot.hasData) {
-              return ListViewBuilder(
-                  messMenu: messMenu, daysOfWeek: daysOfWeek, widget: widget);
-            } else {
-              return const Text("No Data");
-            }
-          },
-        ),
+    return Center(
+      child: FutureBuilder<Map<String, dynamic>>(
+        future: futureMenu,
+        builder: (context, snapshot) {
+          Map<String, dynamic> messMenu =
+              snapshot.data ?? {"data": "no data"};
+          // print("\n day: $currentDay\n time: ${widget.time} \n menu: ${messMenu[daysOfWeek[currentDay - 1]]}");
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return const Column(
+              children: [
+                CircularProgressIndicator(),
+                Text("ERROR: No Net"),
+              ],
+            );
+          } else if (snapshot.hasData) {
+            return ListViewBuilder(
+                messMenu: messMenu, daysOfWeek: daysOfWeek, widget: widget);
+          } else {
+            return const Text("No Data");
+          }
+        },
       ),
     );
   }
@@ -84,17 +81,21 @@ class ListViewBuilder extends StatelessWidget {
       itemBuilder: (context, index) {
         var foodItem = items[index];
         // print("\n $foodItem");
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Card(
-            elevation: 5,
-            color: Colors.lightGreenAccent,
-            child: InkWell(
-              onTap: () {
-                print("$foodItem card tapped");
-              },
-              child: ListTile(
-                title: Center(child: Text("$foodItem")),
+        return SafeArea(
+          top: false,
+          bottom: false,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Card(
+              elevation: 5,
+              color: Colors.lightGreenAccent,
+              child: InkWell(
+                onTap: () {
+                  print("$foodItem card tapped");
+                },
+                child: ListTile(
+                  title: Center(child: Text("$foodItem")),
+                ),
               ),
             ),
           ),

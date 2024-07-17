@@ -16,43 +16,40 @@ class _SidebarState extends State<Sidebar> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      bottom: false,
-      left: false,
-      child: Drawer(
-        backgroundColor: const Color(0xffCBC3E3),
-        child: ListView(
-          children: <Widget>[
-            const UserAccountsDrawerHeader(
-                accountName: Text("Made by Vinayak"),
-                accountEmail: Text("vinayak.chandra.suryavanshi@gmail.com")),
-            ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text("About", style: TextStyle(fontSize: 18)),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (BuildContext context) => About()),
-                );
-              },
+    return Drawer(
+      backgroundColor: const Color(0xffCBC3E3),
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          const UserAccountsDrawerHeader(
+              accountName: Text("Made by Vinayak"),
+              accountEmail: Text("vinayak.chandra.suryavanshi@gmail.com")),
+          ListTile(
+            leading: const Icon(Icons.person),
+            title: const Text("About", style: TextStyle(fontSize: 18)),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (BuildContext context) => About()),
+              );
+            },
+          ),
+          ListTile(
+            tileColor: Colors.red,
+            leading:
+                const Icon(Icons.arrow_back_rounded, color: Colors.white),
+            title: const Text(
+              "EXIT",
+              style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
             ),
-            ListTile(
-              tileColor: Colors.red,
-              leading:
-                  const Icon(Icons.arrow_back_rounded, color: Colors.white),
-              title: const Text(
-                "EXIT",
-                style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
-              ),
-              onTap: () {
-                iosAlert(context);
-              },
-            ),
-          ],
-        ),
+            onTap: () {
+              iosAlert(context);
+            },
+          ),
+        ],
       ),
     );
   }
